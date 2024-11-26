@@ -1,0 +1,79 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "description": "api",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": "18 || 20 || 22"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rimraf dist *.tsbuildinfo .eslintcache",
+    "lint": "pnpm run eslint",
+    "lint:fix": "pnpm run eslint:fix",
+    "eslint": "eslint .",
+    "eslint:fix": "pnpm run eslint -- --fix",
+    "pretest": "pnpm run rebuild",
+    "test": "mocha dist/__tests__",
+    "posttest": "pnpm run lint",
+    "test:dev": "mocha dist/__tests__/**/*.js && pnpm run posttest",
+    "docker:build": "docker build -t loopback-api .",
+    "docker:run": "docker run --network=my_network -p 3000:3000 -d loopback-api ",
+    "openapi-spec": "node ./dist/openapi-spec",
+    "prestart": "pnpm run rebuild",
+    "start": "node -r source-map-support/register .",
+    "prepare": "pnpm run build",
+    "rebuild": "pnpm run clean && pnpm run build"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "Firmansyahp16 <firman.jka@gmail.com>",
+  "license": "",
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@loopback/authentication": "^11.0.8",
+    "@loopback/authentication-jwt": "^0.15.8",
+    "@loopback/boot": "^7.0.7",
+    "@loopback/core": "^6.1.4",
+    "@loopback/repository": "^7.0.8",
+    "@loopback/rest": "^14.0.7",
+    "@loopback/rest-explorer": "^7.0.7",
+    "@loopback/security": "^0.11.8",
+    "@loopback/service-proxy": "^7.0.8",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/luxon": "^3.4.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "loopback-connector-mongodb": "^6.3.0",
+    "luxon": "^3.5.0",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.0.0",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "@loopback/eslint-config": "^15.0.4",
+    "@loopback/testlab": "^7.0.6",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^16.18.101",
+    "eslint": "^8.57.0",
+    "mocha": "^10.6.0",
+    "rimraf": "^5.0.7",
+    "source-map-support": "^0.5.21",
+    "typescript": "~5.2.2"
+  }
+}

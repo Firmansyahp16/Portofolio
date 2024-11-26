@@ -1,0 +1,22 @@
+version: "3"
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: firman
+      MONGO_INITDB_ROOT_PASSWORD: firmansyahp16
+      MONGO_INITDB_DATABASE: lotus
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - mongo-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  mongo-network:
+    driver: bridge

@@ -4,9 +4,10 @@ import { juggler } from "@loopback/repository";
 const config = {
   name: "Mongo",
   connector: "mongodb",
-  url: "mongodb://tama:tama16@172.18.0.2:27017/lotus",
+  url: "mongodb://tama:tama16@localhost:27017/lotus",
   authSource: "admin",
   useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
 
 // Observe application's life cycle to disconnect the datasource when

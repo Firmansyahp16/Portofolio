@@ -12,12 +12,6 @@ import { BidsRepository } from "./bids.repository";
 import { IncrementIdService } from "../services";
 import { IncrementIdBindings } from "../keys";
 
-export type Credentials = {
-  email: string;
-  password: string;
-  token?: string;
-};
-
 export class UsersRepository extends DefaultCrudRepository<
   Users,
   typeof Users.prototype.id,

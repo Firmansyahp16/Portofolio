@@ -28,7 +28,6 @@ export class ProductsController {
     public productsRepository: ProductsRepository
   ) {}
 
-  @authenticate("jwt")
   @post("/products")
   @response(200, {
     description: "Products model instance",
@@ -50,7 +49,6 @@ export class ProductsController {
     return this.productsRepository.create(products);
   }
 
-  @authenticate("jwt")
   @get("/products/count")
   @response(200, {
     description: "Products model count",
@@ -60,7 +58,6 @@ export class ProductsController {
     return this.productsRepository.count(where);
   }
 
-  @authenticate("jwt")
   @get("/products")
   @response(200, {
     description: "Array of Products model instances",
@@ -79,7 +76,6 @@ export class ProductsController {
     return this.productsRepository.find(filter);
   }
 
-  @authenticate("jwt")
   @patch("/products")
   @response(200, {
     description: "Products PATCH success count",
@@ -99,7 +95,6 @@ export class ProductsController {
     return this.productsRepository.updateAll(products, where);
   }
 
-  @authenticate("jwt")
   @get("/products/{id}")
   @response(200, {
     description: "Products model instance",
@@ -117,7 +112,6 @@ export class ProductsController {
     return this.productsRepository.findById(id, filter);
   }
 
-  @authenticate("jwt")
   @patch("/products/{id}")
   @response(204, {
     description: "Products PATCH success",
@@ -136,7 +130,6 @@ export class ProductsController {
     await this.productsRepository.updateById(id, products);
   }
 
-  @authenticate("jwt")
   @put("/products/{id}")
   @response(204, {
     description: "Products PUT success",
@@ -148,7 +141,6 @@ export class ProductsController {
     await this.productsRepository.replaceById(id, products);
   }
 
-  @authenticate("jwt")
   @del("/products/{id}")
   @response(204, {
     description: "Products DELETE success",
@@ -159,7 +151,6 @@ export class ProductsController {
 
   // Bids
 
-  @authenticate("jwt")
   @get("/products/{id}/bids")
   @response(200, {
     description: "Array of Products has many Bids",
@@ -176,7 +167,6 @@ export class ProductsController {
     return this.productsRepository.bids(id).find(filter);
   }
 
-  @authenticate("jwt")
   @post("/products/{id}/bids")
   @response(200, {
     description: "Products model instance",
@@ -200,7 +190,6 @@ export class ProductsController {
     return this.productsRepository.bids(id).create(bids);
   }
 
-  @authenticate("jwt")
   @patch("/products/{id}/bids")
   @response(200, {
     description: "Products.Bids PATCH success count",
@@ -221,7 +210,6 @@ export class ProductsController {
     return this.productsRepository.bids(id).patch(bids, where);
   }
 
-  @authenticate("jwt")
   @del("/products/{id}/bids")
   @response(200, {
     description: "Products.Bids DELETE success count",
@@ -236,7 +224,6 @@ export class ProductsController {
 
   // Owner
 
-  @authenticate("jwt")
   @get("/products/{id}/owner")
   @response(200, {
     description: "Owner belonging to Products",

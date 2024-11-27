@@ -27,7 +27,6 @@ export class BidsController {
     public bidsRepository: BidsRepository
   ) {}
 
-  @authenticate("jwt")
   @post("/bids")
   @response(200, {
     description: "Bids model instance",
@@ -49,7 +48,6 @@ export class BidsController {
     return this.bidsRepository.create(bids);
   }
 
-  @authenticate("jwt")
   @get("/bids/count")
   @response(200, {
     description: "Bids model count",
@@ -59,7 +57,6 @@ export class BidsController {
     return this.bidsRepository.count(where);
   }
 
-  @authenticate("jwt")
   @get("/bids")
   @response(200, {
     description: "Array of Bids model instances",
@@ -76,7 +73,6 @@ export class BidsController {
     return this.bidsRepository.find(filter);
   }
 
-  @authenticate("jwt")
   @get("/bids/{id}")
   @response(200, {
     description: "Bids model instance",
@@ -94,7 +90,6 @@ export class BidsController {
     return this.bidsRepository.findById(id, filter);
   }
 
-  @authenticate("jwt")
   @patch("/bids/{id}")
   @response(204, {
     description: "Bids PATCH success",
@@ -113,7 +108,6 @@ export class BidsController {
     await this.bidsRepository.updateById(id, bids);
   }
 
-  @authenticate("jwt")
   @del("/bids/{id}")
   @response(204, {
     description: "Bids DELETE success",
@@ -124,7 +118,6 @@ export class BidsController {
 
   // Products
 
-  @authenticate("jwt")
   @get("/bids/{id}/products")
   @response(200, {
     description: "Products belonging to Bids",
@@ -142,7 +135,6 @@ export class BidsController {
 
   // Owner
 
-  @authenticate("jwt")
   @get("/bids/{id}/owner")
   @response(200, {
     description: "Owner belonging to Bids",

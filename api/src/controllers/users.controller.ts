@@ -19,32 +19,16 @@ import {
   getWhereSchemaFor,
 } from "@loopback/rest";
 import { Bids, Products, Users } from "../models";
-import { Credentials, UsersRepository } from "../repositories";
+import { UsersRepository } from "../repositories";
 import { authenticate } from "@loopback/authentication";
 import { inject } from "@loopback/core";
-import { BcryptHasher, MyUserService } from "../services";
-import {
-  PasswordHasherBindings,
-  TokenServiceBindings,
-  UserServiceBindings,
-} from "../keys";
-import { JWTService } from "../services/jwt.service";
 
 export class UsersController {
   constructor(
     @repository(UsersRepository)
-    public usersRepository: UsersRepository,
-    @inject(UserServiceBindings.USER_SERVICE)
-    public userService: MyUserService,
-    @inject(TokenServiceBindings.TOKEN_SERVICE)
-    public jwtService: JWTService,
-    @inject(TokenServiceBindings.TOKEN_EXPIRES_IN)
-    public expiresIn: number,
-    @inject(PasswordHasherBindings.PASSWORD_HASHER)
-    public hasher: BcryptHasher
+    public usersRepository: UsersRepository
   ) {}
 
-  @authenticate("jwt")
   @post("/users")
   @response(200, {
     description: "Users model instance",
@@ -66,7 +50,6 @@ export class UsersController {
     return this.usersRepository.create(users);
   }
 
-  @authenticate("jwt")
   @get("/users/count")
   @response(200, {
     description: "Users model count",
@@ -76,7 +59,6 @@ export class UsersController {
     return this.usersRepository.count(where);
   }
 
-  @authenticate("jwt")
   @get("/users")
   @response(200, {
     description: "Array of Users model instances",
@@ -93,7 +75,6 @@ export class UsersController {
     return this.usersRepository.find(filter);
   }
 
-  @authenticate("jwt")
   @patch("/users")
   @response(200, {
     description: "Users PATCH success count",
@@ -113,7 +94,6 @@ export class UsersController {
     return this.usersRepository.updateAll(users, where);
   }
 
-  @authenticate("jwt")
   @get("/users/{id}")
   @response(200, {
     description: "Users model instance",
@@ -131,7 +111,6 @@ export class UsersController {
     return this.usersRepository.findById(id, filter);
   }
 
-  @authenticate("jwt")
   @patch("/users/{id}")
   @response(204, {
     description: "Users PATCH success",
@@ -150,7 +129,6 @@ export class UsersController {
     await this.usersRepository.updateById(id, users);
   }
 
-  @authenticate("jwt")
   @put("/users/{id}")
   @response(204, {
     description: "Users PUT success",
@@ -162,7 +140,6 @@ export class UsersController {
     await this.usersRepository.replaceById(id, users);
   }
 
-  @authenticate("jwt")
   @del("/users/{id}")
   @response(204, {
     description: "Users DELETE success",
@@ -173,7 +150,6 @@ export class UsersController {
 
   // Bids
 
-  @authenticate("jwt")
   @get("/users/{id}/bids", {
     responses: {
       "200": {
@@ -193,7 +169,6 @@ export class UsersController {
     return this.usersRepository.bids(id).find(filter);
   }
 
-  @authenticate("jwt")
   @post("/users/{id}/bids", {
     responses: {
       "200": {
@@ -220,7 +195,6 @@ export class UsersController {
     return this.usersRepository.bids(id).create(bids);
   }
 
-  @authenticate("jwt")
   @patch("/users/{id}/bids", {
     responses: {
       "200": {
@@ -244,7 +218,6 @@ export class UsersController {
     return this.usersRepository.bids(id).patch(bids, where);
   }
 
-  @authenticate("jwt")
   @del("/users/{id}/bids", {
     responses: {
       "200": {
@@ -262,7 +235,6 @@ export class UsersController {
 
   // Products
 
-  @authenticate("jwt")
   @get("/users/{id}/products", {
     responses: {
       "200": {
@@ -282,7 +254,6 @@ export class UsersController {
     return this.usersRepository.products(id).find(filter);
   }
 
-  @authenticate("jwt")
   @post("/users/{id}/products", {
     responses: {
       "200": {
@@ -311,7 +282,6 @@ export class UsersController {
     return this.usersRepository.products(id).create(products);
   }
 
-  @authenticate("jwt")
   @patch("/users/{id}/products", {
     responses: {
       "200": {
@@ -336,7 +306,6 @@ export class UsersController {
     return this.usersRepository.products(id).patch(products, where);
   }
 
-  @authenticate("jwt")
   @del("/users/{id}/products", {
     responses: {
       "200": {
@@ -354,40 +323,4 @@ export class UsersController {
   }
 
   // Authentication
-
-  @authenticate.skip()
-  @post("/users/login")
-  @response(200, {
-    description: "Token",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            id: {
-              type: "string",
-            },
-            userId: {
-              type: "string",
-            },
-            ttl: {
-              type: "string",
-            },
-          },
-        },
-      },
-    },
-  })
-  async login(
-    @requestBody() credentials: Credentials
-  ): Promise<{ id: string; userId: string; ttl: number }> {
-    const user = await this.userService.verifyCredentials(credentials);
-    const userProfile = this.userService.convertToUserProfile(user);
-    const token = await this.jwtService.generateToken(userProfile);
-    return Promise.resolve({
-      id: token,
-      userId: userProfile.id!,
-      ttl: this.expiresIn,
-    });
-  }
 }
